@@ -34,6 +34,8 @@ import de.valeapps.davinci.timetable.UpdateTimeTableService;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static int UPDATE_TIME_TABLE_IN_MILLISECONDS = 864000000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,10 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        //TODO: remove before release!
+
+        startService(new Intent(this, UpdateSubstituteTableService.class));
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -77,7 +83,7 @@ public class MainActivity extends AppCompatActivity
 
         calendar.setTimeInMillis(System.currentTimeMillis());
 
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 864000000, startServicePendingIntent);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), UPDATE_TIME_TABLE_IN_MILLISECONDS, startServicePendingIntent);
     }
 
     private void startOfflineSubstituteTable() {
@@ -100,10 +106,10 @@ public class MainActivity extends AppCompatActivity
             if (update > 1) {
                 am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * update, startServicePendingIntent);
             } else {
-                Log.v("DaVinci", "Ist auf Never");
+                Log.i("DaVinci", "Ist auf Never");
             }
         } else {
-            Log.v("DaVinci", "Offline Vertretungsplan ist aus");
+            Log.i("DaVinci", "Offline Vertretungsplan ist aus");
 
         }
     }
@@ -214,4 +220,5 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
     }
+
 }

@@ -28,7 +28,7 @@ public class BootCompleteReceiver extends BroadcastReceiver {
 
             calendar.setTimeInMillis(System.currentTimeMillis());
 
-            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 10, startServicePendingIntent);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), MainActivity.UPDATE_TIME_TABLE_IN_MILLISECONDS, startServicePendingIntent);
         }
     }
 }

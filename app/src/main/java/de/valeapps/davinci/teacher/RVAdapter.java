@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -18,12 +19,6 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
     List<Teachers> teacherses;
     Context mcontext;
     PersonViewHolder pvh;
-
-    RVAdapter(List<Teachers> list, Context context) {
-
-        teacherses = list;
-        mcontext = context;
-    }
 
     class PersonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -46,9 +41,8 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 String to = teacherses.get(position).mail + "@davinci-gesamtschule.de";
-                Log.v("Test", "sendmail to: " + to);
-                Team team = new Team();
-                team.Test(to);
+                Log.i("DaVinci", "sendmail to: " + to);
+                Team.sendMailtoTeacher(to, mcontext);
             }
         }
     }
@@ -66,6 +60,7 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
     public PersonViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_teacher_rv, viewGroup, false);
         pvh = new PersonViewHolder(v);
+        mcontext = viewGroup.getContext();
         return pvh;
     }
 

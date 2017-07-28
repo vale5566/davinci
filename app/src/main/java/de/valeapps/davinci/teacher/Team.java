@@ -1,5 +1,6 @@
 package de.valeapps.davinci.teacher;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,7 +191,7 @@ public class Team extends AppCompatActivity
             }
 
             rv.setLayoutManager(new LinearLayoutManager(Team.this));
-            mAdapter = new RVAdapter(filteredList, Team.this);
+            mAdapter = new RVAdapter(filteredList);
             rv.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
             return true;
@@ -201,12 +203,14 @@ public class Team extends AppCompatActivity
         }
     };
 
-    void Test(String to) {
-        Intent email = new Intent(Intent.ACTION_SEND);
-        email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
-        email.setType("message/rfc822");
-        Intent emailintent = Intent.createChooser(email, "Email Client auswählen:");
-        emailintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        this.startActivity(emailintent);
+    public static void sendMailtoTeacher (String to, Context context) {
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
+        emailIntent.setType("message/rfc822");
+        try {
+            context.startActivity(Intent.createChooser(emailIntent, "Email Client auswählen:"));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(context, "Keine Email Clients gefunden.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

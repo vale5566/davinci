@@ -40,8 +40,6 @@ public class UpdateSubstituteTableService extends Service {
 
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-        final String klasse = sp.getString("klasse", "keine");
-
         final String url = "http://valeapps.de/davinci/vertretung.html";
 
         File substitute = new File(getFilesDir(), "substitute.html");
@@ -73,7 +71,7 @@ public class UpdateSubstituteTableService extends Service {
                                     boolean notification = sp.getBoolean("notification", true);
 
                                     if (lengthcheck == lengthvertretung) {
-                                        Log.v(TAG, "Vertretungsplan aktuell");
+                                        Log.i(TAG, "Vertretungsplan aktuell");
                                         check.delete();
                                     } else {
                                         substitute.delete();
@@ -85,12 +83,17 @@ public class UpdateSubstituteTableService extends Service {
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
-                                            if (vertretungstring.contains(klasse)) {
-                                                ContentTitle = "Da-Vinci " + klasse;
-                                                ContentText = "Guck auf den Vertretungsplan.";
-                                                notification();
+                                            String klasse = sp.getString("klasse", "keine");
+                                            if (vertretungstring != null) {
+                                                if (vertretungstring.contains(klasse)) {
+                                                    ContentTitle = "Da-Vinci " + klasse;
+                                                    ContentText = "Guck auf den Vertretungsplan.";
+                                                    notification();
+                                                } else {
+                                                    Log.i(TAG, "Nichts enthalten..");
+                                                }
                                             } else {
-                                                Log.i(TAG, "Nichts enthalten..");
+                                                Log.e(TAG, "Error Null on Vertretungs String");
                                             }
                                         }
                                     }
@@ -102,21 +105,27 @@ public class UpdateSubstituteTableService extends Service {
                                 }
                             });
                 } else {
+                    if (!substitute.exists()) {
+                        try {
+                            substitute.createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        AndroidNetworking.download(url, substitute.getAbsolutePath(), "")
+                                .setPriority(Priority.MEDIUM)
+                                .build()
+                                .startDownload(new DownloadListener() {
+                                    @Override
+                                    public void onDownloadComplete() {
+                                        Log.i("DaVinci", "Vertretungsplan erstes mal heruntergeladen.");
+                                    }
 
-                    AndroidNetworking.download(url, substitute.getAbsolutePath(), "")
-                            .setPriority(Priority.MEDIUM)
-                            .build()
-                            .startDownload(new DownloadListener() {
-                                @Override
-                                public void onDownloadComplete() {
-                                    Log.i("DaVinci", "Vertretungsplan erstes mal heruntergeladen.");
-                                }
-
-                                @Override
-                                public void onError(ANError anError) {
-                                    Log.e(TAG, anError.getErrorDetail());
-                                }
-                            });
+                                    @Override
+                                    public void onError(ANError anError) {
+                                        Log.e(TAG, anError.getErrorDetail());
+                                    }
+                                });
+                    }
                 }
             } else {
                 Log.i(TAG, "Kein Internet also kein Vertretungsplan.");
@@ -151,7 +160,6 @@ public class UpdateSubstituteTableService extends Service {
         File fl = new File(filePath);
         FileInputStream fin = new FileInputStream(fl);
         String ret = convertStreamToString(fin);
-        //Make sure you close all streams.
         fin.close();
         return ret;
     }

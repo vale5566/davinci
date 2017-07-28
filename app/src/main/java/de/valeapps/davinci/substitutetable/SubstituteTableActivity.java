@@ -52,14 +52,14 @@ public class SubstituteTableActivity extends AppCompatActivity
             webView.loadUrl("http://valeapps.de/davinci/vertretung.html");
         } else {
             {
-                File vertretung = new File(getFilesDir(), "vertretung.html");
+                File vertretung = new File(getFilesDir(), "substitute.html");
                 if (vertretung.exists()) {
 
-                    webView.loadUrl("file:///data/data/de.valeapps.davinci/files/vertretung.html");
+                    webView.loadUrl("file:///" + vertretung.getAbsolutePath());
 
-                    Toast.makeText(getApplicationContext(), "Offline SubstituteTableActivity.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Offline Vertretungsplan.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Offline SubstituteTableActivity nicht verfügbar.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Offline Vertretungsplan nicht verfügbar.", Toast.LENGTH_SHORT).show();
                 }
             }
         }

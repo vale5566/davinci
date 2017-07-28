@@ -102,7 +102,7 @@ public class UpdateTimeTableService extends Service {
                         }
                     });
         } else {
-            Log.v("DaVinci", "Kein neuer Stundenplan");
+            Log.i("DaVinci", "Kein neuer Stundenplan");
         }
     }
 
@@ -111,12 +111,12 @@ public class UpdateTimeTableService extends Service {
         SharedPreferences.Editor editor = sp.edit();
         editor.putInt("number", intnumbertxt);
         editor.apply();
-        Log.v("DaVinci", "Neuer Stundenplan");
+        Log.i("DaVinci", "Neuer Stundenplan");
 
         if (intnumbertxt < intoffline) {
             editor.putInt("number", intnumbertxt);
             editor.apply();
-            Log.v("DaVinci", "SubstituteTableActivity UpdateSubstituteTableService Zahl.");
+            Log.i("DaVinci", "SubstituteTableActivity UpdateSubstituteTableService Zahl.");
         }
     }
 

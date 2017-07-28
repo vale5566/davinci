@@ -3,6 +3,7 @@ package de.valeapps.davinci.yearbook;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -17,6 +18,12 @@ public class YearbookPDFView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yearbook_pdf_view);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         PDFView pdfView = (PDFView) findViewById(R.id.pdfView);
         Bundle bundle = getIntent().getExtras();
         String fileString = bundle.getString("file");
@@ -29,5 +36,11 @@ public class YearbookPDFView extends AppCompatActivity {
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
