@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -28,6 +29,7 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import java.io.IOException;
 import java.util.Calendar;
 
+import de.valeapps.davinci.substitutetable.SubstituteTableActivity;
 import de.valeapps.davinci.substitutetable.UpdateSubstituteTableService;
 import de.valeapps.davinci.timetable.UpdateTimeTableService;
 
@@ -48,10 +50,6 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-        //TODO: remove before release!
-
-        startService(new Intent(this, UpdateSubstituteTableService.class));
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -121,7 +119,7 @@ public class MainActivity extends AppCompatActivity
             SharedPreferences sp1 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             if (sp1.getBoolean("offline", true)) {
                 AlarmManager am1 = (AlarmManager) MainActivity.this.getSystemService(ALARM_SERVICE);
-                Intent startServiceIntent = new Intent(MainActivity.this, UpdateTimeTableService.class);
+                Intent startServiceIntent = new Intent(MainActivity.this, SubstituteTableActivity.class);
                 PendingIntent startServicePendingIntent1 = PendingIntent.getService(MainActivity.this, 0, startServiceIntent, PendingIntent.FLAG_CANCEL_CURRENT);
                 String updatestring = sp1.getString("time", "30");
                 int update = Integer.parseInt(updatestring);
@@ -188,7 +186,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @NonNull
     private void setTextViewHTML(String url, TextView tv) throws IOException {
         String TAG = "DaVinci";
 
@@ -220,5 +217,4 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
     }
-
 }

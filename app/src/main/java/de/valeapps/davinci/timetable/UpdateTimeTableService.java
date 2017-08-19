@@ -27,52 +27,58 @@ public class UpdateTimeTableService extends Service {
     private File stundenplan;
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (Utils.isNetworkAvailable(this)) {
+        Thread t = new Thread() {
+            public void run() {
 
-            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+                if (Utils.isNetworkAvailable(getApplicationContext())) {
 
-            String klasse = sp.getString("klasse", "null");
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-            if (!klasse.equals("null")) {
-                stundenplanurl = "http://valeapps.de/davinci/plan/" + klasse + ".jpg";
+                    String klasse = sp.getString("klasse", "null");
 
-                intoffline = sp.getInt("number", 0);
+                    if (!klasse.equals("null")) {
+                        stundenplanurl = "http://valeapps.de/davinci/plan/" + klasse + ".jpg";
 
-                final File numbertxt = new File(getFilesDir(), "number.txt");
+                        intoffline = sp.getInt("number", 0);
 
-                stundenplan = new File(getFilesDir(), "stundenplan.jpg");
+                        final File numbertxt = new File(getFilesDir(), "number.txt");
 
-                if (!numbertxt.exists()) {
-                    try {
-                        numbertxt.createNewFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        stundenplan = new File(getFilesDir(), "stundenplan.jpg");
+
+                        if (!numbertxt.exists()) {
+                            try {
+                                numbertxt.createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        AndroidNetworking.download(numberurl, numbertxt.getAbsolutePath(), "")
+                                .setPriority(Priority.LOW)
+                                .build()
+                                .startDownload(new DownloadListener() {
+                                    @Override
+                                    public void onDownloadComplete() {
+                                        String stringnumbertxt = "0";
+                                        try {
+                                            stringnumbertxt = new Scanner(numbertxt).useDelimiter("\\Z").next();
+                                        } catch (FileNotFoundException e) {
+                                            e.printStackTrace();
+                                        }
+                                        int intnumbertxt = Integer.parseInt(stringnumbertxt);
+                                        checkTXTNumber(intnumbertxt);
+                                    }
+
+                                    @Override
+                                    public void onError(ANError anError) {
+                                        Log.e("DaVinci", String.valueOf(anError));
+                                    }
+                                });
                     }
                 }
-                AndroidNetworking.download(numberurl, numbertxt.getAbsolutePath(), "")
-                        .setPriority(Priority.LOW)
-                        .build()
-                        .startDownload(new DownloadListener() {
-                            @Override
-                            public void onDownloadComplete() {
-                                String stringnumbertxt = "0";
-                                try {
-                                    stringnumbertxt = new Scanner(numbertxt).useDelimiter("\\Z").next();
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                }
-                                int intnumbertxt = Integer.parseInt(stringnumbertxt);
-                                checkTXTNumber(intnumbertxt);
-                            }
-
-                            @Override
-                            public void onError(ANError anError) {
-                                Log.e("DaVinci", String.valueOf(anError));
-                            }
-                        });
             }
-        }
-        return flags;
+        };
+        t.start();
+        return startId;
     }
 
     private void checkTXTNumber(int intnumbertxt) {
@@ -116,7 +122,6 @@ public class UpdateTimeTableService extends Service {
         if (intnumbertxt < intoffline) {
             editor.putInt("number", intnumbertxt);
             editor.apply();
-            Log.i("DaVinci", "SubstituteTableActivity UpdateSubstituteTableService Zahl.");
         }
     }
 

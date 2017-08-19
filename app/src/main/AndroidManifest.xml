@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -46,6 +45,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".timetable.UpdateTimeTableService" />
+
         <service android:name=".substitutetable.UpdateSubstituteTableService" />
 
         <receiver android:name=".BootCompleteReceiver">
@@ -61,17 +61,6 @@
             android:name=".score.ScoreActivity"
             android:label="@string/title_activity_noten"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <service android:name=".FCM.FCM_Messaging_Service">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".FCM.FCM_Instance_ID_Service">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
 
         <activity
             android:name=".homework.HomeworkActivity"
@@ -90,5 +79,4 @@
             android:label="@string/title_activity_pdf_jahrbuch"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
-
 </manifest>

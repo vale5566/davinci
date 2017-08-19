@@ -64,9 +64,6 @@ public class TimeTableActivity extends AppCompatActivity implements NavigationVi
 
             button.setVisibility(View.VISIBLE);
             button.setOnClickListener(v -> {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-                StrictMode.setThreadPolicy(policy);
                 startService(new Intent(TimeTableActivity.this, UpdateTimeTableService.class));
                 startActivity(new Intent(TimeTableActivity.this, MainActivity.class));
             });
