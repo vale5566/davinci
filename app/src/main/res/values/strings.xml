@@ -65,6 +65,12 @@
         <item>11a</item>
         <item>11b</item>
         <item>11c</item>
+        <item>12a</item>
+        <item>12b</item>
+        <item>12c</item>
+        <item>13a</item>
+        <item>13b</item>
+        <item>13c</item>
     </string-array>
     <string-array name="klassen_values">
         <item>7a</item>
@@ -88,6 +94,12 @@
         <item>11a</item>
         <item>11b</item>
         <item>11c</item>
+        <item>12a</item>
+        <item>12b</item>
+        <item>12c</item>
+        <item>13a</item>
+        <item>13b</item>
+        <item>13c</item>
     </string-array>
 
     <!-- Example settings for Data & Sync -->

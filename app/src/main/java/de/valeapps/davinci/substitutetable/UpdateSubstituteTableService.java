@@ -1,9 +1,9 @@
 package de.valeapps.davinci.substitutetable;
 
+import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -27,7 +27,7 @@ import java.io.InputStreamReader;
 import de.valeapps.davinci.R;
 import de.valeapps.davinci.Utils;
 
-public class UpdateSubstituteTableService extends Service {
+public class UpdateSubstituteTableService extends IntentService {
 
     String ContentTitle;
     String ContentText;
@@ -39,6 +39,10 @@ public class UpdateSubstituteTableService extends Service {
 
     File substitute;
     File check;
+
+    public UpdateSubstituteTableService() {
+        super("UpdateSubstituteTableService");
+    }
 
 
     @Override
@@ -64,17 +68,13 @@ public class UpdateSubstituteTableService extends Service {
                                 .startDownload(new DownloadListener() {
                                     @Override
                                     public void onDownloadComplete() {
-                                        Thread thread = new Thread() {
-                                            public void run() {
                                                 lengthCheck();
                                                 stopSelf(startId);
-                                            }
-                                        };
-                                        thread.start();
                                     }
                                     @Override
                                     public void onError(ANError anError) {
                                         Log.e(TAG, anError.getErrorDetail());
+                                        stopSelf(startId);
                                     }
                                 });
 
@@ -83,6 +83,7 @@ public class UpdateSubstituteTableService extends Service {
                     }
                 } else {
                     Log.i(TAG, "Kein Internet also kein Vertretungsplan.");
+                    stopSelf(startId);
                 }
             }
         };
@@ -106,11 +107,13 @@ public class UpdateSubstituteTableService extends Service {
                         public void onDownloadComplete() {
                             Log.i("DaVinci", "Vertretungsplan erstes mal heruntergeladen.");
                             makeNotification();
+                            stopSelf();
                         }
 
                         @Override
                         public void onError(ANError anError) {
                             Log.e(TAG, anError.getErrorDetail());
+                            stopSelf();
                         }
                     });
         }
@@ -167,6 +170,11 @@ public class UpdateSubstituteTableService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+
     }
 
     private void notification() {

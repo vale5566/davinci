@@ -14,6 +14,8 @@ import de.valeapps.davinci.yearbook.YearbookActivity;
 
 public class Utils {
 
+    public static String TAG = "DaVinci";
+
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
