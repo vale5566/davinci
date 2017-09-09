@@ -31,6 +31,8 @@
 
     <string name="pref_header_general">Allgemein</string>
 
+    <string name="manually_update_time_table">Nach neuem Stundenplan suchen</string>
+
     <string-array name="fächer">
         <item>Deutsch</item>
         <item>Englisch</item>

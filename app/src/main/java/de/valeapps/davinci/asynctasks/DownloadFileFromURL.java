@@ -14,12 +14,13 @@ import com.androidnetworking.interfaces.DownloadListener;
 import java.io.File;
 import java.io.IOException;
 
+import de.valeapps.davinci.Utils;
+
 public class DownloadFileFromURL extends AsyncTask<Object, String, Void> {
 
     private ProgressDialog pDialog;
     private Context mContext;
     private File file;
-    private String TAG = "DaVinci";
 
     public DownloadFileFromURL(Context context) {
         mContext = context;
@@ -68,9 +69,9 @@ public class DownloadFileFromURL extends AsyncTask<Object, String, Void> {
                     @Override
                     public void onError(ANError error) {
                         pDialog.dismiss();
-                        Log.d(TAG, "onError errorCode : " + error.getErrorCode());
-                        Log.d(TAG, "onError errorBody : " + error.getErrorBody());
-                        Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
+                        Log.d(Utils.TAG, "onError errorCode : " + error.getErrorCode());
+                        Log.d(Utils.TAG, "onError errorBody : " + error.getErrorBody());
+                        Log.d(Utils.TAG, "onError errorDetail : " + error.getErrorDetail());
                         Toast.makeText(mContext, "Error", Toast.LENGTH_SHORT).show();
                         file.delete();
                     }

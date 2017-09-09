@@ -49,9 +49,9 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.JahrbuchViewHolder> {
 
         JahrbuchViewHolder(View itemView) {
             super(itemView);
-            jahrbuchName = (TextView) itemView.findViewById(R.id.tv_jahrbuch);
-            button = (Button) itemView.findViewById(R.id.btn_jahrbuch);
-            CardView cardView = (CardView) itemView.findViewById(R.id.cv_jahrbuch);
+            jahrbuchName = itemView.findViewById(R.id.tv_jahrbuch);
+            button = itemView.findViewById(R.id.btn_jahrbuch);
+            CardView cardView = itemView.findViewById(R.id.cv_jahrbuch);
             button.setOnClickListener(this);
             cardView.setOnClickListener(this);
         }

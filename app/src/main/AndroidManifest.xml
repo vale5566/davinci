@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BIND_JOB_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -42,9 +43,15 @@
             android:label="@string/title_activity_vertretungsplan"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".timetable.UpdateTimeTableService" />
+        <service
+            android:name=".timetable.UpdateTimeTableService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <service android:name=".substitutetable.UpdateSubstituteTableService" />
+        <service
+            android:name=".substitutetable.UpdateSubstituteTableService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name=".timetable.UpdateTimeTableServiceManually" />
 
         <receiver android:name=".BootCompleteReceiver">
             <intent-filter>

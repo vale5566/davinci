@@ -18,13 +18,13 @@ public class YearbookPDFView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yearbook_pdf_view);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        PDFView pdfView = (PDFView) findViewById(R.id.pdfView);
+        PDFView pdfView = findViewById(R.id.pdfView);
         Bundle bundle = getIntent().getExtras();
         String fileString = bundle.getString("file");
         File fileyearbook = null;

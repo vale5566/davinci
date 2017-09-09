@@ -36,21 +36,21 @@ public class Team extends AppCompatActivity
 
         setContentView(R.layout.activity_teacher);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.getMenu().findItem(R.id.team).setChecked(true);
 
-        rv = (RecyclerView) findViewById(R.id.recyclerview);
+        rv = findViewById(R.id.recyclerview);
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -59,7 +59,7 @@ public class Team extends AppCompatActivity
         initializeData();
         initializeAdapter();
 
-        search = (SearchView) findViewById(R.id.search);
+        search = findViewById(R.id.search);
         search.setOnQueryTextListener(listener);
     }
 
@@ -70,29 +70,33 @@ public class Team extends AppCompatActivity
         teacherses.add(new Teachers("F. Gallien", "gln", "Mathe, Informatik"));
         teacherses.add(new Teachers("H. Andersson", "and", "Mathe, Erdkunde"));
         teacherses.add(new Teachers("K. Albert", "alb", "Geschichte, Sonderpädagogik"));
-        teacherses.add(new Teachers("P. Baumgart", "bau", "Bio, Französisch, Chemie"));
         teacherses.add(new Teachers("H. Barkmann", "bar", "Bio, Chemie"));
+        teacherses.add(new Teachers("P. Baumgart", "bau", "Bio, Französisch, Chemie"));
         teacherses.add(new Teachers("K. Becker", "bec", "Sport, Bio"));
-        teacherses.add(new Teachers("J. Beilke", "bei", "LER, Deutsch"));
+        teacherses.add(new Teachers("S. Bippus", "bip", "PB, Spanisch"));
         teacherses.add(new Teachers("M. Breuer", "bre", "Erdkunde, Physik, Sport"));
         teacherses.add(new Teachers("J. Devers", "dev", "Religion"));
         teacherses.add(new Teachers("A. Fischer", "fis", "PB, Englisch"));
+        teacherses.add(new Teachers("J. Freitag", "fre", "Sport, Englisch"));
+        teacherses.add(new Teachers("L. Fröhlich", "fro", "Französisch, LER, Philosophie"));
         teacherses.add(new Teachers("K. Hantscher", "han", "Sport, Deutsch"));
         teacherses.add(new Teachers("N. Herborn", "heb", "Deutsch, Musik, Darstellendes Spiel"));
         teacherses.add(new Teachers("J. Hirsch", "hir", "Deutsch, Spanisch"));
         teacherses.add(new Teachers("F. Herold", "heo", "Französisch, Sport"));
         teacherses.add(new Teachers("K. Holling", "hol", "Mathematik, Erdkunde, Sport"));
         teacherses.add(new Teachers("S. Hösch", "hos", "Englisch, Spanisch"));
-        teacherses.add(new Teachers("F. Kirchesch", "kir", "Englisch, Musik, LER"));
+        teacherses.add(new Teachers("S. Karakus", "kar", "Deutsch, Kunst"));
         teacherses.add(new Teachers("J. Kiolbassa", "kio", "Französisch, Deutsch"));
+        teacherses.add(new Teachers("F. Kirchesch", "kir", "Englisch, Musik, LER"));
         teacherses.add(new Teachers("E. Knake", "kna", "Deutsch, PB"));
         teacherses.add(new Teachers("S. Knoche", "kno", "Spanisch, Erdkunde"));
         teacherses.add(new Teachers("S. Krämer", "kra", "Englisch, Deutsch"));
         teacherses.add(new Teachers("A. Krückels", "kru", "Deutsch, PB, Darstellendes Spiel"));
         teacherses.add(new Teachers("R. Küfner Chang", "kue", "Spanisch, Deutsch"));
         teacherses.add(new Teachers("J. Laufhäger", "lau", "Englisch, Sport"));
-        teacherses.add(new Teachers("S. Lekow", "lek", "Deutsch, Biologie"));
+        teacherses.add(new Teachers("Dr. A. Lembert-Heidenreich", "lem", "Englisch, Geschichte"));
         teacherses.add(new Teachers("C. Lichtenfeld", "lic", "Deutsch, Biologie"));
+        teacherses.add(new Teachers("S. Lekow", "lek", "Deutsch, Biologie"));
         teacherses.add(new Teachers("S. Moritz", "mor", "Sport, Geschichte, PB"));
         teacherses.add(new Teachers("A. Munck", "mun", "Englisch, Deutsch, DaZ"));
         teacherses.add(new Teachers("D. Niemann", "nie", "Englisch, Spanisch"));
@@ -102,40 +106,46 @@ public class Team extends AppCompatActivity
         teacherses.add(new Teachers("L. Panasik", "pan", "Deutsch, Erdkunde"));
         teacherses.add(new Teachers("J. Paust", "pau", "Kunst, Deutsch"));
         teacherses.add(new Teachers("L. Puder", "pud", "Mathematik, Physik"));
-        teacherses.add(new Teachers("A. Quandt", "qua", "Französisch, Englisch"));
         teacherses.add(new Teachers("S. Raphael", "rap", "Musik, Biologie"));
-        teacherses.add(new Teachers("B. Rettig", "ret", "Latein, Geschichte"));
         teacherses.add(new Teachers("S. Reichelt", "rei", "Spanisch, Deutsch"));
-        teacherses.add(new Teachers("M. Reinhold", "ren", "Biologie, Chemie"));
+        teacherses.add(new Teachers("B. Rettig", "ret", "Latein, Geschichte"));
         teacherses.add(new Teachers("C. Richter", "ric", "Chemie, Biologie"));
         teacherses.add(new Teachers("K. Richter", "kri", "Englisch, Russisch"));
         teacherses.add(new Teachers("S. Rietz", "riz", "Kunst, Sport"));
         teacherses.add(new Teachers("J. Rievers", "rie", "Mathematik, Kunst"));
+        teacherses.add(new Teachers("C. Rump", "rum", "LER, Deutsch"));
         teacherses.add(new Teachers("S. Schiwietz", "siw", "Mathematik, Physik"));
         teacherses.add(new Teachers("K. Schiedung", "sie", "Geschichte, Latein"));
         teacherses.add(new Teachers("K. Schöne", "soe", "Mathematik, Physik"));
         teacherses.add(new Teachers("F. Schubert", "sub", "Deutsch, Sonderpädagogik"));
         teacherses.add(new Teachers("R. Schwanbeck", "swa", "Mathematik, Physik"));
         teacherses.add(new Teachers("T. Schwarze", "swz", "WAT, Mathematik, Informatik"));
+        teacherses.add(new Teachers("I. Seeger", "see", "Biologie, Geschichte"));
         teacherses.add(new Teachers("M. Stamm", "sta", "Sport, Geschichte"));
+        teacherses.add(new Teachers("S. Steinborn", "ste", "Mathematik, Informatik"));
         teacherses.add(new Teachers("T. Stolz", "sto", "Mathematik, PB"));
         teacherses.add(new Teachers("R. Suhrbier", "suh", "Chemie, Physik, WAT"));
+        teacherses.add(new Teachers("D. Suske", "sus", "Biologie, WAT"));
         teacherses.add(new Teachers("M. Teschendorf", "tes", "Englisch, Geschichte"));
         teacherses.add(new Teachers("W. Timm", "tim", "Englisch, Französisch"));
         teacherses.add(new Teachers("B. Watz", "wat", "Englisch, Sport"));
         teacherses.add(new Teachers("S. Wegehaupt", "weg", "Mathematik, LER"));
         teacherses.add(new Teachers("K. Wittram", "wit", "Deutsch, Musik"));
+        teacherses.add(new Teachers("M. Börrnert", "boe", "Mathematik, Englisch"));
+        teacherses.add(new Teachers("T. Moulla Mohamed", "mou", "PB, Sport"));
+        teacherses.add(new Teachers("M. Richter", "mri", "Chemie, Physik"));
+        teacherses.add(new Teachers("A. Wegner", "awe", "Deutsch, Sport"));
     }
 
     private void initializeAdapter() {
-        RecyclerView rv = (RecyclerView) findViewById(R.id.recyclerview);
+        RecyclerView rv = findViewById(R.id.recyclerview);
         RVAdapter adapter = new RVAdapter(teacherses);
         rv.setAdapter(adapter);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -169,7 +179,7 @@ public class Team extends AppCompatActivity
 
         Utils.NavigationItemSelected(this, id);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -203,7 +213,7 @@ public class Team extends AppCompatActivity
         }
     };
 
-    public static void sendMailtoTeacher (String to, Context context) {
+    public static void sendMailtoTeacher(String to, Context context) {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
         emailIntent.setType("message/rfc822");

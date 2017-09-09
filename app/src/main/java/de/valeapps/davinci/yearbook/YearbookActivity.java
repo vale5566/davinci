@@ -31,16 +31,16 @@ public class YearbookActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yearbook);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        RecyclerView rv = (RecyclerView) findViewById(R.id.rv_jahrbuch);
+        RecyclerView rv = findViewById(R.id.rv_jahrbuch);
 
         rv.setHasFixedSize(true);
 
@@ -50,7 +50,7 @@ public class YearbookActivity extends AppCompatActivity
         initializeData();
         initializeAdapter();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.getMenu().findItem(R.id.jahrbuch).setChecked(true);
@@ -63,14 +63,14 @@ public class YearbookActivity extends AppCompatActivity
     }
 
     private void initializeAdapter() {
-        RecyclerView rv = (RecyclerView) findViewById(R.id.rv_jahrbuch);
+        RecyclerView rv = findViewById(R.id.rv_jahrbuch);
         RVAdapter adapter = new RVAdapter(jahrbuchs);
         rv.setAdapter(adapter);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -107,7 +107,7 @@ public class YearbookActivity extends AppCompatActivity
 
         Utils.NavigationItemSelected(this, id);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

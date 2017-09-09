@@ -7,12 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import de.valeapps.davinci.R;
+import de.valeapps.davinci.Utils;
 
 class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
 
@@ -30,10 +30,10 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
 
         PersonViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView) itemView.findViewById(R.id.cv);
-            personName = (TextView) itemView.findViewById(R.id.person_name);
-            personmail = (TextView) itemView.findViewById(R.id.person_mail);
-            personsubjects = (TextView) itemView.findViewById(R.id.person_subjects);
+            cv = itemView.findViewById(R.id.cv);
+            personName = itemView.findViewById(R.id.person_name);
+            personmail = itemView.findViewById(R.id.person_mail);
+            personsubjects = itemView.findViewById(R.id.person_subjects);
             itemView.setOnClickListener(this);
         }
 
@@ -41,7 +41,7 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 String to = teacherses.get(position).mail + "@davinci-gesamtschule.de";
-                Log.i("DaVinci", "sendmail to: " + to);
+                Log.i(Utils.TAG, "sendmail to: " + to);
                 Team.sendMailtoTeacher(to, mcontext);
             }
         }

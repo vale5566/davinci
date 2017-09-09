@@ -4,7 +4,6 @@ package de.valeapps.davinci.login;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,7 +21,6 @@ import org.json.JSONObject;
 import de.valeapps.davinci.MainActivity;
 import de.valeapps.davinci.R;
 import de.valeapps.davinci.Utils;
-import de.valeapps.davinci.timetable.UpdateTimeTableService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -36,9 +34,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etUsername = (EditText) findViewById(R.id.username);
-        etPassword = (EditText) findViewById(R.id.password);
-        bLogin = (Button) findViewById(R.id.sign_in);
+        etUsername = findViewById(R.id.username);
+        etPassword = findViewById(R.id.password);
+        bLogin = findViewById(R.id.sign_in);
 
         bLogin.setOnClickListener(v -> {
             login();
@@ -80,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onError(ANError anError) {
                                 Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                                Log.e("DaVinci", String.valueOf(anError));
+                                Log.e(Utils.TAG, String.valueOf(anError));
                             }
                         });
             } else {
@@ -100,7 +98,8 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
             Toast.makeText(getApplicationContext(), "Erfolgreich Eingeloggt !", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, MainActivity.class));
-            startService(new Intent(getApplicationContext(), UpdateTimeTableService.class));
+            Utils.scheduleSubstituteTableJob(this);
+            Utils.scheduleTimeTableJob(this);
             finish();
         } else {
             Toast.makeText(this, "Login Fehlgeschlagen", Toast.LENGTH_SHORT).show();

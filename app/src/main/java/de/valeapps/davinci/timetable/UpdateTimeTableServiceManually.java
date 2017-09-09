@@ -1,10 +1,13 @@
 package de.valeapps.davinci.timetable;
 
-import android.app.job.JobParameters;
-import android.app.job.JobService;
+import android.app.Service;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -17,7 +20,7 @@ import java.io.IOException;
 
 import de.valeapps.davinci.Utils;
 
-public class UpdateTimeTableService extends JobService {
+public class UpdateTimeTableServiceManually extends Service {
 
     final String numberurl = "http://valeapps.de/davinci/plan/number.html";
     int intoffline = 0;
@@ -25,12 +28,7 @@ public class UpdateTimeTableService extends JobService {
     private File stundenplan;
 
     @Override
-    public boolean onStopJob(JobParameters jobParameters) {
-        return true;
-    }
-
-    @Override
-    public boolean onStartJob(JobParameters jobParameters) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
         Thread t = new Thread() {
             public void run() {
                 if (Utils.isNetworkAvailable(getApplicationContext())) {
@@ -54,28 +52,27 @@ public class UpdateTimeTableService extends JobService {
                                     public void onResponse(String s) {
                                         int number = Integer.parseInt(s);
                                         checkNumber(number);
-                                        jobFinished(jobParameters, true);
+                                        stopSelf();
                                     }
 
                                     @Override
                                     public void onError(ANError anError) {
                                         Log.e(Utils.TAG, anError.getErrorDetail());
-                                        jobFinished(jobParameters, true);
+                                        stopSelf();
                                     }
                                 });
 
                     } else {
-                        Log.d(Utils.TAG, "Klasse noch nicht ausgewählt");
-                        jobFinished(jobParameters, true);
+                        Toast.makeText(UpdateTimeTableServiceManually.this, "Keine Klasse ausgewählt", Toast.LENGTH_SHORT).show();
+                        stopSelf();
                     }
                 } else {
-                    Log.d(Utils.TAG, "Kein Internet");
-                    jobFinished(jobParameters, true);
+                    Toast.makeText(UpdateTimeTableServiceManually.this, "Kein Internet.", Toast.LENGTH_SHORT).show();
                 }
             }
         };
         t.start();
-        return true;
+        return startId;
     }
 
     private void checkNumber(int intnumber) {
@@ -105,7 +102,7 @@ public class UpdateTimeTableService extends JobService {
                         }
                     });
         } else {
-            Log.i(Utils.TAG, "Kein neuer Stundenplan");
+            Toast.makeText(this, "Kein neuer Stundenplan", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -114,6 +111,12 @@ public class UpdateTimeTableService extends JobService {
         SharedPreferences.Editor editor = sp.edit();
         editor.putInt("number", intnumbernew);
         editor.apply();
-        Log.i(Utils.TAG, "Neuer Stundenplan");
+        Toast.makeText(this, "Neuer Stundenplan", Toast.LENGTH_SHORT).show();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 }

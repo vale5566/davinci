@@ -35,6 +35,6 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp"
-        android:id="@+id/button2"
+        android:id="@+id/timeTableRefreshButton"
         android:visibility="invisible" />
 </RelativeLayout>

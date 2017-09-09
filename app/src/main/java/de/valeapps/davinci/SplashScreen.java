@@ -26,6 +26,8 @@ public class SplashScreen extends Activity {
         new Handler().postDelayed(() -> {
             boolean auth = sp.getBoolean("auth", false);
             if (auth) {
+                Utils.scheduleSubstituteTableJob(this);
+                Utils.scheduleTimeTableJob(this);
                 startActivity(new Intent(SplashScreen.this, MainActivity.class));
                 finish();
             } else {

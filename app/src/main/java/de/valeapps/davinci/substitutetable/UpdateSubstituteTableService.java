@@ -1,16 +1,15 @@
 package de.valeapps.davinci.substitutetable;
 
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
@@ -27,26 +26,23 @@ import java.io.InputStreamReader;
 import de.valeapps.davinci.R;
 import de.valeapps.davinci.Utils;
 
-public class UpdateSubstituteTableService extends IntentService {
-
-    String ContentTitle;
-    String ContentText;
-    String TAG = "DaVinci";
+public class UpdateSubstituteTableService extends JobService {
 
     final int NOTIFICATION_REQUEST_CODE = 5742;
-
     final String url = "http://valeapps.de/davinci/vertretung.html";
-
+    String ContentTitle;
+    String ContentText;
     File substitute;
     File check;
 
-    public UpdateSubstituteTableService() {
-        super("UpdateSubstituteTableService");
+    @Override
+    public boolean onStopJob(JobParameters jobParameters) {
+        Log.d(Utils.TAG, "onStop called on SubstituteTable");
+        return false;
     }
 
-
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public boolean onStartJob(JobParameters jobParameters) {
         substitute = new File(getFilesDir(), "substitute.html");
         check = new File(getFilesDir(), "check.html");
 
@@ -68,27 +64,29 @@ public class UpdateSubstituteTableService extends IntentService {
                                 .startDownload(new DownloadListener() {
                                     @Override
                                     public void onDownloadComplete() {
-                                                lengthCheck();
-                                                stopSelf(startId);
+                                        lengthCheck();
+                                        stopSelf();
                                     }
+
                                     @Override
                                     public void onError(ANError anError) {
-                                        Log.e(TAG, anError.getErrorDetail());
-                                        stopSelf(startId);
+                                        Log.e(Utils.TAG, anError.getErrorDetail() + "SubstituteTable");
+                                        stopSelf();
                                     }
                                 });
 
                     } else {
                         firstDownloadSubstituteTable();
+                        stopSelf();
                     }
                 } else {
-                    Log.i(TAG, "Kein Internet also kein Vertretungsplan.");
-                    stopSelf(startId);
+                    Log.i(Utils.TAG, "Kein Internet also kein Vertretungsplan.");
+                    stopSelf();
                 }
             }
         };
         t.start();
-        return startId;
+        return true;
     }
 
     private void firstDownloadSubstituteTable() {
@@ -105,15 +103,13 @@ public class UpdateSubstituteTableService extends IntentService {
                     .startDownload(new DownloadListener() {
                         @Override
                         public void onDownloadComplete() {
-                            Log.i("DaVinci", "Vertretungsplan erstes mal heruntergeladen.");
+                            Log.i(Utils.TAG, "Vertretungsplan erstes mal heruntergeladen.");
                             makeNotification();
-                            stopSelf();
                         }
 
                         @Override
                         public void onError(ANError anError) {
-                            Log.e(TAG, anError.getErrorDetail());
-                            stopSelf();
+                            Log.e(Utils.TAG, anError.getErrorDetail());
                         }
                     });
         }
@@ -121,20 +117,20 @@ public class UpdateSubstituteTableService extends IntentService {
 
     private void lengthCheck() {
 
-        if(check.exists()) {
+        if (check.exists()) {
             long lengthcheck = check.length();
 
             long lengthvertretung = substitute.length();
 
             if (lengthcheck == lengthvertretung) {
                 check.delete();
-                Log.i(TAG, "Vertretungsplan aktuell");
+                Log.i(Utils.TAG, "Vertretungsplan aktuell");
             } else {
                 newsubstituteTable();
                 makeNotification();
             }
         } else {
-            Log.e(TAG, "Ich denke Fehler beim herunterladen.");
+            Log.e(Utils.TAG, "Ich denke Fehler beim herunterladen.");
         }
     }
 
@@ -158,23 +154,12 @@ public class UpdateSubstituteTableService extends IntentService {
                     ContentText = "Guck auf den Vertretungsplan.";
                     notification();
                 } else {
-                    Log.i(TAG, "Nichts enthalten..");
+                    Log.i(Utils.TAG, "Nichts enthalten..");
                 }
             } else {
-                Log.e(TAG, "Error Null on Vertretungs String");
+                Log.e(Utils.TAG, "Error Null on Vertretungs String");
             }
         }
-    }
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-
     }
 
     private void notification() {
@@ -193,7 +178,7 @@ public class UpdateSubstituteTableService extends IntentService {
         notificationManager.notify(0, notification);
     }
 
-    private String readTextFile(File file){
+    private String readTextFile(File file) {
         BufferedReader reader = null;
         StringBuilder builder = new StringBuilder();
         try {
@@ -207,7 +192,7 @@ public class UpdateSubstituteTableService extends IntentService {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (reader != null){
+            if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {

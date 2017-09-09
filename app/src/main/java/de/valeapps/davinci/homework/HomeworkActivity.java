@@ -23,10 +23,10 @@ public class HomeworkActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homework);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TextView tv = (TextView) findViewById(R.id.tv_nachrichten);
+        TextView tv = findViewById(R.id.tv_nachrichten);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String klasse = sp.getString("klasse", "");
         if (klasse.equals("")) {
@@ -34,11 +34,11 @@ public class HomeworkActivity extends AppCompatActivity
         } else {
             tv.setText("HomeworkActivity der Klasse: " + klasse);
         }
-        Button btn = (Button) findViewById(R.id.button_upload);
+        Button btn = findViewById(R.id.button_upload);
         btn.setOnClickListener(v -> UploadNewFile());
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -48,7 +48,7 @@ public class HomeworkActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -82,7 +82,7 @@ public class HomeworkActivity extends AppCompatActivity
 
         Utils.NavigationItemSelected(this, id);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
