@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,11 @@ public class YearbookActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.getMenu().findItem(R.id.jahrbuch).setChecked(true);
+
+        File jahrbuchfolder = new File(getFilesDir() + "/Jahrbücher/");
+        if (!jahrbuchfolder.exists()) {
+            jahrbuchfolder.mkdirs();
+        }
     }
 
     private void initializeData() {
