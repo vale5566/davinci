@@ -1,5 +1,6 @@
 package de.valeapps.davinci;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,21 +20,12 @@ import android.widget.TextView;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.DownloadListener;
 import com.androidnetworking.interfaces.StringRequestListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.Scanner;
+
+import de.valeapps.davinci.timetable.UpdateTimeTableServiceManually;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -125,36 +117,44 @@ public class MainActivity extends AppCompatActivity
             case "klasse":
                 String klasse = sp.getString("klasse", "null");
                 String alteklasse = sp.getString("alteklasse", "null");
-                registerFBKey(klasse, alteklasse);
-                String stundenplanurl = "http://valeapps.de/davinci/plan/" + klasse + ".jpg";
-                File stundenplan = new File(getFilesDir(), "stundenplan.jpg");
-                AndroidNetworking.download(stundenplanurl, stundenplan.getAbsolutePath(), "")
-                        .setPriority(Priority.MEDIUM)
-                        .build()
-                        .startDownload(new DownloadListener() {
-                            @Override
-                            public void onDownloadComplete() {
-                                Log.i(Utils.TAG, "Neuer Stundenplan! Nach Änderung.");
-                            }
-
-                            @Override
-                            public void onError(ANError anError) {
-                                Log.e(Utils.TAG, String.valueOf(anError));
-                            }
-                        });
+                if (!klasse.equals(alteklasse)) {
+                    registerFBKey(klasse, alteklasse, sp);
+                    startService(new Intent(getApplicationContext(), UpdateTimeTableServiceManually.class));
+//                String stundenplanurl = "http://valeapps.de/davinci/plan/" + klasse + ".jpg";
+//                File stundenplan = new File(getFilesDir(), "stundenplan.jpg");
+//                AndroidNetworking.download(stundenplanurl, stundenplan.getAbsolutePath(), "")
+//                        .setPriority(Priority.MEDIUM)
+//                        .build()
+//                        .startDownload(new DownloadListener() {
+//                            @Override
+//                            public void onDownloadComplete() {
+//                                Log.i(Utils.TAG, "Neuer Stundenplan! Nach Änderung.");
+//                            }
+//
+//                            @Override
+//                            public void onError(ANError anError) {
+//                                Log.e(Utils.TAG, String.valueOf(anError));
+//                            }
+//                        });
+                }
                 break;
         }
     }
 
-    private void registerFBKey(String klasse, String alteklasse) {
+    private void registerFBKey(String klasse, String alteklasse, SharedPreferences sp) {
         FirebaseMessaging.getInstance().subscribeToTopic(klasse);
         Log.d(Utils.TAG, klasse + " abonniert.");
-        if (alteklasse  != null) {
+        if (!alteklasse.equals("null")) {
             FirebaseMessaging.getInstance().unsubscribeFromTopic(alteklasse);
             Log.d(Utils.TAG, alteklasse + " deabonniert.");
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("alteklasse", klasse);
-            editor.commit();
+            editor.apply();
+        } else {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("alteklasse", klasse);
+            editor.apply();
+            Log.d(Utils.TAG, alteklasse + "erste mal applied");
         }
     }
 
