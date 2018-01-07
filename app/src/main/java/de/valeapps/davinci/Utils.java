@@ -1,26 +1,16 @@
 package de.valeapps.davinci;
 
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.preference.PreferenceManager;
 import android.util.Log;
-
-import java.util.Arrays;
-import java.util.List;
 
 import de.valeapps.davinci.score.ScoreActivity;
 import de.valeapps.davinci.substitutetable.SubstituteTableActivity;
-import de.valeapps.davinci.substitutetable.UpdateSubstituteTableService;
 import de.valeapps.davinci.teacher.Team;
 import de.valeapps.davinci.timetable.TimeTableActivity;
-import de.valeapps.davinci.timetable.UpdateTimeTableService;
 import de.valeapps.davinci.yearbook.YearbookActivity;
 
 public class Utils {
@@ -30,7 +20,12 @@ public class Utils {
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        NetworkInfo activeNetworkInfo = null;
+        if (connectivityManager != null) {
+            activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        } else {
+            Log.e(Utils.TAG, "ERROR in Utils.");
+        }
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
