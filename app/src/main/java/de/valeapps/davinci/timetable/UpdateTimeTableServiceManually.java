@@ -22,8 +22,6 @@ import de.valeapps.davinci.Utils;
 
 public class UpdateTimeTableServiceManually extends Service {
 
-    final String numberurl = "http://valeapps.de/davinci/plan/number.html";
-    int intoffline = 0;
     String stundenplanurl;
     private File stundenplan;
 
@@ -40,27 +38,20 @@ public class UpdateTimeTableServiceManually extends Service {
                     if (!klasse.equals("null")) {
                         stundenplanurl = "http://valeapps.de/davinci/plan/" + klasse + ".jpg";
 
-                        String intofflinestring = sp.getString("number", "0");
-
-                        intoffline = Integer.parseInt(intofflinestring);
-
                         stundenplan = new File(getFilesDir(), "stundenplan.jpg");
 
-                        AndroidNetworking.get(numberurl)
+                        AndroidNetworking.download(stundenplanurl, stundenplan.getAbsolutePath(), "")
                                 .setPriority(Priority.MEDIUM)
                                 .build()
-                                .getAsString(new StringRequestListener() {
+                                .startDownload(new DownloadListener() {
                                     @Override
-                                    public void onResponse(String s) {
-                                        int number = Integer.parseInt(s);
-                                        checkNumber(number);
-                                        stopSelf();
+                                    public void onDownloadComplete() {
+                                        Log.d(Utils.TAG, "Neuer Stundenplan.");
                                     }
 
                                     @Override
                                     public void onError(ANError anError) {
-                                        Log.e(Utils.TAG, anError.getErrorDetail());
-                                        stopSelf();
+                                        Log.e(Utils.TAG, String.valueOf(anError));
                                     }
                                 });
 
@@ -75,45 +66,6 @@ public class UpdateTimeTableServiceManually extends Service {
         };
         t.start();
         return startId;
-    }
-
-    private void checkNumber(int intnumber) {
-
-        if (intnumber > intoffline) {
-
-            if (!stundenplan.exists()) {
-                try {
-                    stundenplan.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            AndroidNetworking.download(stundenplanurl, stundenplan.getAbsolutePath(), "")
-                    .setPriority(Priority.MEDIUM)
-                    .build()
-                    .startDownload(new DownloadListener() {
-                        @Override
-                        public void onDownloadComplete() {
-                            saveNewNumber(intnumber);
-                        }
-
-                        @Override
-                        public void onError(ANError anError) {
-                            Log.e(Utils.TAG, String.valueOf(anError));
-                        }
-                    });
-        } else {
-            Toast.makeText(this, "Kein neuer Stundenplan", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void saveNewNumber(int intnumbernew) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putInt("number", intnumbernew);
-        editor.apply();
-        Toast.makeText(this, "Neuer Stundenplan", Toast.LENGTH_SHORT).show();
     }
 
     @Nullable
