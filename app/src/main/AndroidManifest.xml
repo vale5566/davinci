@@ -15,6 +15,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_school_black_24dp" />
+
         <activity
             android:name=".SplashScreen"
             android:label="@string/app_name">
@@ -44,20 +48,20 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-            android:name=".timetable.UpdateTimeTableService"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+            android:name=".firebasecloudmessaging.FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
 
         <service
-            android:name=".substitutetable.UpdateSubstituteTableService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service android:name=".timetable.UpdateTimeTableServiceManually" />
-
-        <receiver android:name=".BootCompleteReceiver">
+            android:name=".firebasecloudmessaging.FirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
-        </receiver>
+        </service>
+
+        <service android:name=".timetable.UpdateTimeTableServiceManually" />
 
         <activity
             android:name=".SettingsActivity"

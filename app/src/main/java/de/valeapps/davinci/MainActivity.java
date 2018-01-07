@@ -21,9 +21,19 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.DownloadListener;
 import com.androidnetworking.interfaces.StringRequestListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -114,6 +124,8 @@ public class MainActivity extends AppCompatActivity
         switch (key) {
             case "klasse":
                 String klasse = sp.getString("klasse", "null");
+                String alteklasse = sp.getString("alteklasse", "null");
+                registerFBKey(klasse, alteklasse);
                 String stundenplanurl = "http://valeapps.de/davinci/plan/" + klasse + ".jpg";
                 File stundenplan = new File(getFilesDir(), "stundenplan.jpg");
                 AndroidNetworking.download(stundenplanurl, stundenplan.getAbsolutePath(), "")
@@ -131,9 +143,18 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
                 break;
-            case "time":
-                Utils.scheduleSubstituteTableJob(this);
-                break;
+        }
+    }
+
+    private void registerFBKey(String klasse, String alteklasse) {
+        FirebaseMessaging.getInstance().subscribeToTopic(klasse);
+        Log.d(Utils.TAG, klasse + " abonniert.");
+        if (alteklasse  != null) {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(alteklasse);
+            Log.d(Utils.TAG, alteklasse + " deabonniert.");
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("alteklasse", klasse);
+            editor.commit();
         }
     }
 

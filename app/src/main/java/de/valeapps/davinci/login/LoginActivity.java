@@ -98,8 +98,8 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
             Toast.makeText(getApplicationContext(), "Erfolgreich Eingeloggt !", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, MainActivity.class));
-            Utils.scheduleSubstituteTableJob(this);
-            Utils.scheduleTimeTableJob(this);
+//            Utils.scheduleSubstituteTableJob(this);
+//            Utils.scheduleTimeTableJob(this);
             finish();
         } else {
             Toast.makeText(this, "Login Fehlgeschlagen", Toast.LENGTH_SHORT).show();

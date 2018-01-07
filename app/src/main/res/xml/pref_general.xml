@@ -5,12 +5,6 @@
         android:summary="Benachrichtigung bei Entfall oder Vertretung"
         android:title="" />
 
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="offline"
-        android:summary="Offline Vertretungsplan"
-        android:title="" />
-
     <ListPreference
         android:entries="@array/klassen_title"
         android:entryValues="@array/klassen_values"
@@ -18,13 +12,4 @@
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="@string/klasse" />
-
-    <ListPreference
-        android:defaultValue="30"
-        android:entries="@array/time_titles"
-        android:entryValues="@array/time_values"
-        android:key="time"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="@string/time" />
 </PreferenceScreen>
