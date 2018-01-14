@@ -6,4 +6,8 @@
         android:fragment="de.valeapps.davinci.SettingsActivity$GeneralPreferenceFragment"
         android:icon="@drawable/ic_info_black_24dp"
         android:title="@string/pref_header_general" />
+    <header
+        android:fragment="de.valeapps.davinci.SettingsActivity$SchoolWifiFragment"
+        android:icon="@drawable/ic_wifi_black_24dp"
+        android:title="@string/pref_header_school_wifi" />
 </preference-headers>

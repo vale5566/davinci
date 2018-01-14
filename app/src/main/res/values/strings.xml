@@ -31,6 +31,8 @@
 
     <string name="pref_header_general">Allgemein</string>
 
+    <string name="pref_header_school_wifi">Schul-WLAN</string>
+
     <string name="manually_update_time_table">Nach neuem Stundenplan suchen</string>
 
     <string-array name="fächer">
@@ -243,5 +245,6 @@
     <string name="title_activity_jahrbuch">Jahrbuch</string>
     <string name="navigation_drawer_jahrbuch">Jahrbuch</string>
     <string name="title_activity_pdf_jahrbuch">PDFViewer</string>
+    <string name="wifi_button">Schul-WLAN hinzufügen</string>
 
 </resources>
