@@ -35,6 +35,13 @@ import de.valeapps.davinci.Utils;
 public class TimeTableActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.timetable).setChecked(true);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
@@ -53,7 +60,7 @@ public class TimeTableActivity extends AppCompatActivity implements NavigationVi
         assert navigationView != null;
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.getMenu().findItem(R.id.stundenplan).setChecked(true);
+        navigationView.getMenu().findItem(R.id.timetable).setChecked(true);
 
         TouchImageView iv = findViewById(R.id.imageView);
 
