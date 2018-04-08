@@ -48,7 +48,7 @@ public class Team extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.getMenu().findItem(R.id.team).setChecked(true);
+        navigationView.getMenu().findItem(R.id.teacher).setChecked(true);
 
         rv = findViewById(R.id.recyclerview);
         rv.setHasFixedSize(true);

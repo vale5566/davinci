@@ -1,20 +1,26 @@
 package de.valeapps.davinci;
 
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Build;
-import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
-import android.support.v7.app.ActionBar;
-import android.view.MenuItem;
+        import android.annotation.TargetApi;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.content.res.Configuration;
+        import android.net.wifi.WifiConfiguration;
+        import android.net.wifi.WifiManager;
+        import android.os.Build;
+        import android.os.Bundle;
+        import android.preference.ListPreference;
+        import android.preference.Preference;
+        import android.preference.PreferenceActivity;
+        import android.preference.PreferenceFragment;
+        import android.support.v7.app.ActionBar;
+        import android.util.Log;
+        import android.view.MenuItem;
+        import android.widget.Toast;
 
-import java.util.List;
+        import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+
+        import java.util.List;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -28,35 +34,6 @@ import java.util.List;
  * API Guide</a> for more information on developing a Settings UI.
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
-    /**
-     * A preference value change listener that updates the preference's summary
-     * to reflect its new value.
-     */
-
-
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = (preference, value) -> {
-        String stringValue = value.toString();
-
-        if (preference instanceof ListPreference) {
-            // For list preferences, look up the correct display value in
-            // the preference's 'entries' list.
-            ListPreference listPreference = (ListPreference) preference;
-            int index = listPreference.findIndexOfValue(stringValue);
-
-            // Set the summary to reflect the new value.
-            preference.setSummary(
-                    index >= 0
-                            ? listPreference.getEntries()[index]
-                            : null);
-
-        } else {
-            // For all other preferences, set the summary to the value's
-            // simple string representation.
-            preference.setSummary(stringValue);
-        }
-        return true;
-    };
-
     /**
      * Helper method to determine if the device has an extra-large screen. For
      * example, 10" tablets are extra-large.
@@ -106,7 +83,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
-                || GeneralPreferenceFragment.class.getName().equals(fragmentName);
+                || GeneralPreferenceFragment.class.getName().equals(fragmentName)
+                || SchoolWifiFragment.class.getName().equals(fragmentName);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -116,17 +94,47 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     }
 
-    /**
-     * This fragment shows general preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public static class SchoolWifiFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_school_wifi);
+            setHasOptionsMenu(true);
+            Preference pref = findPreference("wifi_button");
+            pref.setOnPreferenceClickListener(preference -> {
+                FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+                String networkSSID = "daVinci";
+                String networkPass = "32#MonaLisa*Davinci";
+                WifiConfiguration wifiConfiguration = new WifiConfiguration();
+
+                wifiConfiguration.SSID = "\"" + networkSSID + "\"";
+                wifiConfiguration.preSharedKey = "\"" + networkPass + "\"";
+                WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                assert wifiManager != null;
+                int netId = wifiManager.addNetwork(wifiConfiguration);
+                wifiManager.enableNetwork(netId, true);
+                Toast.makeText(getActivity().getApplicationContext(), "Schul-WLAN hinzugefügt.", Toast.LENGTH_SHORT).show();
+                return false;
+            });
         }
 
         @Override
