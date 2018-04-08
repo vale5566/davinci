@@ -29,6 +29,13 @@ public class YearbookActivity extends AppCompatActivity
     private List<Yearbooks> jahrbuchs;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.yearbook).setChecked(true);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yearbook);
@@ -54,7 +61,7 @@ public class YearbookActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.getMenu().findItem(R.id.jahrbuch).setChecked(true);
+        navigationView.getMenu().findItem(R.id.yearbook).setChecked(true);
 
         File jahrbuchfolder = new File(getFilesDir() + "/Jahrbücher/");
         if (!jahrbuchfolder.exists()) {
