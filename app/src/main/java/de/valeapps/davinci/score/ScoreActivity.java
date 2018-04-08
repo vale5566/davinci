@@ -36,11 +36,18 @@ public class ScoreActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.getMenu().findItem(R.id.noten).setChecked(true);
+        navigationView.getMenu().findItem(R.id.score).setChecked(true);
 
         TouchImageView iv = findViewById(R.id.imageView2);
 
         iv.setImageResource(R.drawable.noten);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.score).setChecked(true);
     }
 
     @Override

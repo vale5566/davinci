@@ -20,6 +20,14 @@ import de.valeapps.davinci.Utils;
 
 public class SubstituteTableActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String url = "https://valeapps.de/davinci/vertretung.html";
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.substitutetable).setChecked(true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +47,7 @@ public class SubstituteTableActivity extends AppCompatActivity
         assert navigationView != null;
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.getMenu().findItem(R.id.vertretungsplan).setChecked(true);
+        navigationView.getMenu().findItem(R.id.substitutetable).setChecked(true);
 
         WebView webView = findViewById(R.id.webView);
 
@@ -47,21 +55,10 @@ public class SubstituteTableActivity extends AppCompatActivity
         settings.setDefaultTextEncodingName("utf-8");
 
         if (Utils.isNetworkAvailable(this)) {
-//                webView.loadDataWithBaseURL("http://davincib.de/vertretung.html", null, "text/html", "utf-8", "http://davincib.de/vertretung.html");
-//                webView.loadDataWithBaseURL(null, "http://google.com","text/html","UTF-8",null);
-            webView.loadUrl("http://valeapps.de/davinci/vertretung.html");
+//                webView.loadDataWithBaseURL(null, url,"text/html","UTF-8",null);
+            webView.loadUrl(url);
         } else {
-            {
-                File vertretung = new File(getFilesDir(), "substitute.html");
-                if (vertretung.exists()) {
-
-                    webView.loadUrl("file:///" + vertretung.getAbsolutePath());
-
-                    Toast.makeText(getApplicationContext(), "Offline Vertretungsplan.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Offline Vertretungsplan nicht verfügbar.", Toast.LENGTH_SHORT).show();
-                }
-            }
+            Toast.makeText(this, "Keine Internetverbindung.", Toast.LENGTH_SHORT).show();
         }
 
     }
