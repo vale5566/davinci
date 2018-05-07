@@ -19,7 +19,7 @@ import de.valeapps.davinci.Utils;
 
 public class UpdateTimeTableService extends JobService {
 
-    final String numberurl = "http://valeapps.de/davinci/plan/number.html";
+    final String numberurl = "https://valeapps.de/davinci/plan/number.html";
     int intoffline = 0;
     String stundenplanurl;
     private File stundenplan;
@@ -42,7 +42,7 @@ public class UpdateTimeTableService extends JobService {
                     String intofflinestring = sp.getString("time", "0");
 
                     if (!klasse.equals("null")) {
-                        stundenplanurl = "http://valeapps.de/davinci/plan/" + klasse + ".jpg";
+                        stundenplanurl = "https://valeapps.de/davinci/plan/" + klasse + ".jpg";
 
                         intoffline = Integer.parseInt(intofflinestring);
 

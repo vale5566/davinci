@@ -36,7 +36,7 @@ public class UpdateTimeTableServiceManually extends Service {
                     String klasse = sp.getString("klasse", "null");
 
                     if (!klasse.equals("null")) {
-                        stundenplanurl = "http://valeapps.de/davinci/plan/" + klasse + ".jpg";
+                        stundenplanurl = "https://valeapps.de/davinci/plan/" + klasse + ".jpg";
 
                         stundenplan = new File(getFilesDir(), "stundenplan.jpg");
 
