@@ -64,7 +64,7 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.JahrbuchViewHolder> {
             mLastClickTime = now;
             File jahrbuch = new File(v.getContext().getFilesDir() + "/Jahrbücher/" + jahrbuchs.get(getLayoutPosition()).name + ".pdf");
             if (v.getId() == button.getId()) {
-                String url = "http://valeapps.de/davinci/" + jahrbuchs.get(getLayoutPosition()).name + ".pdf";
+                String url = "https://valeapps.de/davinci/" + jahrbuchs.get(getLayoutPosition()).name + ".pdf";
                 if (!jahrbuch.exists()) {
                     new DownloadFileFromURL(v.getContext()).execute(url, jahrbuch);
                 } else {

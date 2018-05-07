@@ -30,9 +30,5 @@
             android:id="@+id/yearbook"
             android:title="@string/navigation_drawer_jahrbuch"
             android:icon="@drawable/ic_local_library_black_24dp" />
-        <item
-            android:id="@+id/statistics"
-            android:title="@string/navigation_drawer_statistics"
-            android:icon="@drawable/ic_show_chart_black_24dp" />
     </group>
 </menu>

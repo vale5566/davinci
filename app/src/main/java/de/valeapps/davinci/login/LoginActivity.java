@@ -42,7 +42,7 @@ import okhttp3.OkHttpClient;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String LOGIN_REQUEST_URL = "https://valeapps.de:64495/api/login";
+    private static final String LOGIN_REQUEST_URL = "https://valeapps.de/davinciapp/api/login/";
     EditText etUsername;
     EditText etPassword;
     Button bLogin;
@@ -57,62 +57,16 @@ public class LoginActivity extends AppCompatActivity {
         bLogin = findViewById(R.id.sign_in);
 
         bLogin.setOnClickListener(v -> {
-            try {
-                login();
-            } catch (CertificateException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (KeyStoreException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (KeyManagementException e) {
-                e.printStackTrace();
-            }
+            login();
         });
-
     }
 
-    private void login() throws CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+    private void login() {
         final String username = etUsername.getText().toString();
         final String password = etPassword.getText().toString();
         if (!username.isEmpty() && !password.isEmpty()) {
 
             if (Utils.isNetworkAvailable(this)) {
-//                CertificateFactory cf = CertificateFactory.getInstance("X.509");
-//                InputStream cert = this.getResources().openRawResource(R.raw.cert);
-//                Certificate ca;
-//                try {
-//                    ca = cf.generateCertificate(cert);
-//                } finally { cert.close(); }
-//
-//                String keyStoreType = KeyStore.getDefaultType();
-//                KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-//                keyStore.load(null, null);
-//                keyStore.setCertificateEntry("ca", ca);
-//
-//                String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
-//                TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
-//                tmf.init(keyStore);
-//
-//                TrustManager[] trustManagers = tmf.getTrustManagers();
-//
-//
-//                X509TrustManager trustManager = (X509TrustManager) trustManagers[0];
-//
-//
-//                SSLContext sslContext = SSLContext.getInstance("TLS");
-//                sslContext.init(null, tmf.getTrustManagers(), null);
-//
-//                OkHttpClient okHttpClient = new OkHttpClient() .newBuilder()
-//                        .sslSocketFactory(sslContext.getSocketFactory(), trustManager)
-//                        .hostnameVerifier((hostname, sslSession) -> true)
-//                        .build();
-//
-//                AndroidNetworking.initialize(getApplicationContext(),okHttpClient);
-
-                AndroidNetworking.initialize(getApplicationContext(), getUnsafeOkHttpClient());
 
                 AndroidNetworking.post(LOGIN_REQUEST_URL)
                         .addBodyParameter("username", username)
@@ -164,47 +118,6 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         } else {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        }
-    }
-    private static OkHttpClient getUnsafeOkHttpClient() {
-        try {
-            // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[] {
-                    new X509TrustManager() {
-                        @Override
-                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-                        }
-
-                        @Override
-                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-                        }
-
-                        @Override
-                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                            return new java.security.cert.X509Certificate[]{};
-                        }
-                    }
-            };
-
-            // Install the all-trusting trust manager
-            final SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-            // Create an ssl socket factory with our all-trusting manager
-            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager)trustAllCerts[0]);
-            builder.hostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
-
-            OkHttpClient okHttpClient = builder.build();
-            return okHttpClient;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
     }
 }

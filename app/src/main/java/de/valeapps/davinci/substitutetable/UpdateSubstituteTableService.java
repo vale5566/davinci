@@ -29,7 +29,7 @@ import de.valeapps.davinci.Utils;
 public class UpdateSubstituteTableService extends JobService {
 
     final int NOTIFICATION_REQUEST_CODE = 5742;
-    final String url = "http://valeapps.de/davinci/vertretung.html";
+    final String url = "https://valeapps.de/davinci/vertretung.html";
     String ContentTitle;
     String ContentText;
     File substitute;

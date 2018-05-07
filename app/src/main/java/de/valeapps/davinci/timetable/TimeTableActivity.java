@@ -81,7 +81,7 @@ public class TimeTableActivity extends AppCompatActivity implements NavigationVi
             button.setOnClickListener(v -> {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
                 String klasse = sp.getString("klasse", "null");
-                String stundenplanurl = "http://valeapps.de/davinci/plan/" + klasse + ".jpg";
+                String stundenplanurl = "https://valeapps.de/davinci/plan/" + klasse + ".jpg";
                 if (!stundenplan.exists()) {
                     try {
                         stundenplan.createNewFile();

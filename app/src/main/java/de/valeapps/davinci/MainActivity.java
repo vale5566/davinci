@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity
                 if (!klasse.equals(alteklasse)) {
                     registerFBKey(klasse, alteklasse, sp);
                     startService(new Intent(getApplicationContext(), UpdateTimeTableServiceManually.class));
-//                String stundenplanurl = "http://valeapps.de/davinci/plan/" + klasse + ".jpg";
+//                String stundenplanurl = "https://valeapps.de/davinci/plan/" + klasse + ".jpg";
 //                File stundenplan = new File(getFilesDir(), "stundenplan.jpg");
 //                AndroidNetworking.download(stundenplanurl, stundenplan.getAbsolutePath(), "")
 //                        .setPriority(Priority.MEDIUM)
@@ -167,8 +167,8 @@ public class MainActivity extends AppCompatActivity
         if (Utils.isNetworkAvailable(this)) {
 
             try {
-                setTextViewHTML("http://valeapps.de/davinci/nachrichten.txt", nachrichten);
-                setTextViewHTML("http://valeapps.de/davinci/lastedit.txt", lastedit);
+                setTextViewHTML("https://valeapps.de/davinci/nachrichten.txt", nachrichten);
+                setTextViewHTML("https://valeapps.de/davinci/lastedit.txt", lastedit);
             } catch (IOException e) {
                 e.printStackTrace();
             }
