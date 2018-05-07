@@ -18,8 +18,6 @@ package de.valeapps.davinci;
         import android.view.MenuItem;
         import android.widget.Toast;
 
-        import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-
         import java.util.List;
 
 /**
@@ -121,7 +119,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             setHasOptionsMenu(true);
             Preference pref = findPreference("wifi_button");
             pref.setOnPreferenceClickListener(preference -> {
-                FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
                 String networkSSID = "daVinci";
                 String networkPass = "32#MonaLisa*Davinci";
                 WifiConfiguration wifiConfiguration = new WifiConfiguration();

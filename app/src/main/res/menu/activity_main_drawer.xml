@@ -3,23 +3,23 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/main"
+            android:id="@+id/startseite"
             android:title="@string/navigation_drawer_startseite"
             android:icon="@drawable/ic_home_black_24dp" />
         <item
-            android:id="@+id/timetable"
+            android:id="@+id/stundenplan"
             android:title="@string/navigation_drawer_stundenplan"
             android:icon="@drawable/ic_event_black_24dp" />
         <item
-            android:id="@+id/substitutetable"
+            android:id="@+id/vertretungsplan"
             android:title="@string/navigation_drawer_vertretungsplan"
             android:icon="@drawable/ic_event_note_black_24dp" />
         <item
-            android:id="@+id/score"
+            android:id="@+id/noten"
             android:title="@string/navigation_drawer_noten"
             android:icon="@drawable/ic_school_black_24dp" />
         <item
-            android:id="@+id/teacher"
+            android:id="@+id/team"
             android:title="@string/navigation_drawer_team"
             android:icon="@drawable/ic_people_black_24dp" />
         <item
@@ -27,12 +27,8 @@
             android:title="@string/navigation_drawer_website"
             android:icon="@drawable/ic_web_asset_black_24dp" />
         <item
-            android:id="@+id/yearbook"
+            android:id="@+id/jahrbuch"
             android:title="@string/navigation_drawer_jahrbuch"
             android:icon="@drawable/ic_local_library_black_24dp" />
-        <item
-            android:id="@+id/statistics"
-            android:title="@string/navigation_drawer_statistics"
-            android:icon="@drawable/ic_show_chart_black_24dp" />
     </group>
 </menu>

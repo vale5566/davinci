@@ -42,7 +42,7 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
             if (position != RecyclerView.NO_POSITION) {
                 String to = teacherses.get(position).mail + "@davinci-gesamtschule.de";
                 Log.i(Utils.TAG, "sendmail to: " + to);
-                TeacherActivity.sendMailtoTeacher(to, mcontext);
+                Team.sendMailtoTeacher(to, mcontext);
             }
         }
     }

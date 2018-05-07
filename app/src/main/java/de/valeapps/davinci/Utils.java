@@ -9,7 +9,7 @@ import android.util.Log;
 
 import de.valeapps.davinci.score.ScoreActivity;
 import de.valeapps.davinci.substitutetable.SubstituteTableActivity;
-import de.valeapps.davinci.teacher.TeacherActivity;
+import de.valeapps.davinci.teacher.Team;
 import de.valeapps.davinci.timetable.TimeTableActivity;
 import de.valeapps.davinci.yearbook.YearbookActivity;
 
@@ -31,25 +31,25 @@ public class Utils {
 
     public static void NavigationItemSelected(Context context, int id) {
         switch (id) {
-            case R.id.main:
+            case R.id.startseite:
                 context.startActivity(new Intent(context, MainActivity.class));
                 break;
-            case R.id.timetable:
+            case R.id.stundenplan:
                 context.startActivity(new Intent(context, TimeTableActivity.class));
                 break;
-            case R.id.substitutetable:
+            case R.id.vertretungsplan:
                 context.startActivity(new Intent(context, SubstituteTableActivity.class));
                 break;
-            case R.id.score:
+            case R.id.noten:
                 context.startActivity(new Intent(context, ScoreActivity.class));
                 break;
-            case R.id.teacher:
-                context.startActivity(new Intent(context, TeacherActivity.class));
+            case R.id.team:
+                context.startActivity(new Intent(context, Team.class));
                 break;
             case R.id.website:
-                Website.startWebsite(context);
+                WebsiteActivity.startWebsite(context);
                 break;
-            case R.id.yearbook:
+            case R.id.jahrbuch:
                 context.startActivity(new Intent(context, YearbookActivity.class));
                 break;
         }

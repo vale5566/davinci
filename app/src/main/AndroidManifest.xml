@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BIND_JOB_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -48,16 +49,20 @@
             android:label="@string/title_activity_vertretungsplan"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".firebasecloudmessaging.FirebaseMessagingService">
+        <service
+            android:name=".firebasecloudmessaging.FirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name=".firebasecloudmessaging.FirebaseInstanceIDService">
+
+        <service
+            android:name=".firebasecloudmessaging.FirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
         <service android:name=".timetable.UpdateTimeTableServiceManually" />
 
         <activity
@@ -67,12 +72,13 @@
             android:name=".score.ScoreActivity"
             android:label="@string/title_activity_noten"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".homework.HomeworkActivity"
             android:label="@string/title_activity_hausaufgaben"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".teacher.TeacherActivity"
+            android:name=".teacher.Team"
             android:label="@string/title_activity_team"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -84,5 +90,4 @@
             android:label="@string/title_activity_pdf_jahrbuch"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
-
 </manifest>
